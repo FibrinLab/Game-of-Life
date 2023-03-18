@@ -16,7 +16,13 @@ export default function Home() {
   const [columns, setColumns] = useState(50)
 
   var setGrid = Array(rows).fill().map(() => Array(columns).fill(false))
-  let selectBox = () => {}
+  let selectBox = (rows, columns) => {
+    let gridCopy = arrClone(setGrid)
+  }
+
+  const arrClone = (arr) => {
+    return JSON.parse(JSON.stringify(arr))
+  }
 
   return (
     <>
@@ -36,7 +42,7 @@ export default function Home() {
           selectBox = {selectBox}
         />
 
-        {/* <Nav /> */}
+        <Nav />
       </main>
     </>
   )

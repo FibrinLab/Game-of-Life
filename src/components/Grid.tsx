@@ -4,7 +4,12 @@ import styles from '@/styles/Home.module.css'
 import React, { useState } from 'react'
 import Box from './Box'
 
-function Grid(props) {
+type GridProps = {
+    rows: number;
+    columns: number;
+}
+
+function Grid(props: GridProps) {
     const width = props.columns * 14;
     let rowsArray = [];
 
@@ -13,7 +18,7 @@ function Grid(props) {
         for (let j = 0; j < props.columns; j++) {
             let boxId = i + ":" + j
 
-            boxClass = props.setGrid[i][j] ? "boxActive" : "boxInactive";
+            boxClass = props.gridFull[i][j] ? "boxActive" : "boxInactive";
             rowsArray.push(
                 <Box 
                     boxClass = {boxClass}

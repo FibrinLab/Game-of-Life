@@ -7,6 +7,8 @@ import Box from './Box'
 type GridProps = {
     rows: number;
     columns: number;
+    gridFull: boolean[][];
+    selectBox: (row: number, column: number) => void;
 }
 
 function Grid(props: GridProps) {

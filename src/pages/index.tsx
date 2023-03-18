@@ -6,25 +6,32 @@ import Header from '../components/Header'
 import Nav from '@/components/Nav'
 import Grid from '@/components/Grid'
 import React, { useEffect, useState } from 'react'
+import { JsxElement } from 'typescript'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function Home() {
+interface State {
+  speed: number;
+  rows: number;
+  columns: number;
+  gridFull: boolean[][];
+}
 
-  const [speed, setSpeed] = useState(100)
-  const [rows, setRows] = useState(30)
-  const [columns, setColumns] = useState(50)
+export default function Home(): JSX.Element {
 
-  const [gridFull, setGridFull] = useState(Array(rows).fill().map(() => Array(columns).fill(false)))
+  const [speed, setSpeed] = useState<State["speed"]>(100)
+  const [rows, setRows] = useState<State["rows"]>(30)
+  const [columns, setColumns] = useState<State["columns"]>(50)
+  const [gridFull, setGridFull] = useState<State["gridFull"]>(Array(rows).fill(null).map(() => Array(columns).fill(false)));
 
-  let selectBox = (rows, columns) => {
+  let selectBox = (rows: number, columns: number) => {
     let gridCopy = arrClone(gridFull)
     gridCopy[rows][columns] = !gridCopy[rows][columns];
     setGridFull(gridCopy)
   }
 
-  const arrClone = (arr) => {
-    return JSON.parse(JSON.stringify(arr))
+  const arrClone = (arr: State["gridFull"]) => {
+    return JSON.parse(JSON.stringify(arr)) as State["gridFull"]
   }
 
   const seed = () => {

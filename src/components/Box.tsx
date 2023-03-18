@@ -6,6 +6,7 @@ type BoxProps = {
     column: number;
     boxClass: string;
     selectBox: (row: number, column: number) => void;
+    boxId: string;
 }
 
 function Box(props: BoxProps): JSX.Element {

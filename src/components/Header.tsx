@@ -1,25 +1,30 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '@/styles/Home.module.css'
+import React, { useState } from 'react'
 
 function Header() {
+    const [generation, setGeneration] = useState(0);
+
     return (
         <div className={styles.description}>
           <p>
-            <code className={styles.code}>Game of Life</code>
+            <code className={styles.code}>The Game of Life</code>
           </p>
           <p>
-            <code className={styles.code}>Generations: {}</code>
+            <code className={styles.code}>Generations: {generation}</code>
           </p>
           <div>
-            <a
-              href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              By{' '}
-              <code className={styles.code}>FibrinLab</code>
-            </a>
+            <p>
+                <a
+                href=""
+                target="_blank"
+                rel="noopener noreferrer"
+                >
+                By{' '}
+                <code className={styles.code}>FibrinLab</code>
+                </a>
+            </p>
           </div>
         </div>
     )

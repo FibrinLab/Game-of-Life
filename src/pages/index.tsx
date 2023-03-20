@@ -1,11 +1,10 @@
 import Head from 'next/head'
-import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
 import Header from '../components/Header'
 import Nav from '@/components/Nav'
 import Grid from '@/components/Grid'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { JsxElement } from 'typescript'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -19,10 +18,13 @@ interface State {
 
 export default function Home(): JSX.Element {
 
-  const [speed, setSpeed] = useState<State["speed"]>(100)
-  const [rows, setRows] = useState<State["rows"]>(30)
-  const [columns, setColumns] = useState<State["columns"]>(50)
+  const [speed, setSpeed] = useState<State["speed"]>(100);
+  const [rows, setRows] = useState<State["rows"]>(30);
+  const [columns, setColumns] = useState<State["columns"]>(50);
   const [gridFull, setGridFull] = useState<State["gridFull"]>(Array(rows).fill(null).map(() => Array(columns).fill(false)));
+  const [generation, setGeneration] = useState(0);
+  const intervalId = useRef<NodeJS.Timeout | null>(null);
+
 
   let selectBox = (rows: number, columns: number) => {
     let gridCopy = arrClone(gridFull)
@@ -44,11 +46,57 @@ export default function Home(): JSX.Element {
 			}
 		}
     setGridFull(gridCopy)
+
+    // setInterval(startButton, 900);
 	}
+  let gridCopyTest = arrClone(gridFull);
+  console.log(gridCopyTest)
+  
+  const startButton = () => {
+    for (let i = 0; i < 100; i++) {
+      start();
+    }
+  }
+
+  // This function applies the rules of Conway's Game of Life to update the state of the grid
+  const start = () => {
+		let g = gridFull;
+    console.log("Before before", g);
+		let gridCopy = arrClone(gridFull);
+
+    // Loop through each cell in the grid
+    for (let i = 0; i < rows; i++) {
+      for (let j = 0; j < columns; j++) {
+        let count = 0;
+
+        // Check the 8 adjacent cells to the current cell and count the number of live cells
+        if (i > 0) if (g[i - 1][j]) count++;
+        if (i > 0 && j > 0) if (g[i - 1][j - 1]) count++;
+        if (i > 0 && j < columns - 1) if (g[i - 1][j + 1]) count++;
+        if (j < columns - 1) if (g[i][j + 1]) count++;
+        if (j > 0) if (g[i][j - 1]) count++;
+        if (i < rows - 1) if (g[i + 1][j]) count++;
+        if (i < rows - 1 && j > 0) if (g[i + 1][j - 1]) count++;
+        if (i < rows - 1 && j < columns - 1) if (g[i + 1][j + 1]) count++;
+
+        // Apply the rules of Conway's Game of Life to update the state of the cell
+        if (g[i][j] && (count < 2 || count > 3)) gridCopy[i][j] = false;
+        if (!g[i][j] && count === 3) gridCopy[i][j] = true;
+      }
+    }
+    // Update the state of the grid and the generation count
+    let gen = generation + 1;
+    console.log("Before update", gridFull);
+    setGridFull(gridCopy);
+    console.log("After update", gridFull);
+    setGeneration(gen);
+	}
+  console.log(generation)
 
   useEffect(() => {
-    seed()
+    seed();
   }, [])
+  
 
   return (
     <>
@@ -59,7 +107,9 @@ export default function Home(): JSX.Element {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <Header />
+        <Header 
+          generation = {generation}
+        />
 
         <Grid 
           rows = {rows} 
@@ -68,7 +118,9 @@ export default function Home(): JSX.Element {
           selectBox = {selectBox}
         />
 
-        <Nav />
+        <button onClick={() => startButton()}>Click Me</button>
+
+        {/* <Nav /> */}
       </main>
     </>
   )

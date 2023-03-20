@@ -3,8 +3,11 @@ import Image from 'next/image'
 import styles from '@/styles/Home.module.css'
 import React, { useState } from 'react'
 
-function Header() {
-    const [generation, setGeneration] = useState(0);
+interface HeaderProps {
+    generation: number;
+}
+
+function Header(props: HeaderProps): JSX.Element {
 
     return (
         <div className={styles.description}>
@@ -12,7 +15,7 @@ function Header() {
             <code className={styles.code}>The Game of Life</code>
           </p>
           <p>
-            <code className={styles.code}>Generations: {generation}</code>
+            <code className={styles.code}>Generations: {props.generation}</code>
           </p>
           <div>
             <p>

@@ -118,9 +118,8 @@ export default function Home(): JSX.Element {
           selectBox = {selectBox}
         />
 
-        <button onClick={() => startButton()}>Click Me</button>
-
-        {/* <Nav /> */}
+        <button className={styles.code} onClick={() => startButton()}>Click Me</button>
+        <p>Keep Clicking, Dont Stop</p>
       </main>
     </>
   )
